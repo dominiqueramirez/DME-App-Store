@@ -1,11 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, ExternalLink, X, ChevronDown, Sparkles, Grid3X3, User } from 'lucide-react';
-import { apps, categories, platforms, getTeamMembers } from '../data/apps';
+import { Search, Filter, ExternalLink, X, ChevronDown, Sparkles, Grid3X3, User, Users } from 'lucide-react';
+import { apps, categories, platforms, teams, getTeamMembers } from '../data/apps';
 
 const AppStore = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedPlatform, setSelectedPlatform] = useState('all');
+  const [selectedTeam, setSelectedTeam] = useState('all');
   const [selectedPerson, setSelectedPerson] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
 
@@ -26,12 +27,15 @@ const AppStore = () => {
       // Platform filter
       const matchesPlatform = selectedPlatform === 'all' || app.platform === selectedPlatform;
 
+      // Team filter
+      const matchesTeam = selectedTeam === 'all' || app.team === selectedTeam;
+
       // Person filter
       const matchesPerson = selectedPerson === 'all' || 
         app.designedFor.includes(selectedPerson) ||
         app.designedFor.includes('Everyone');
 
-      return matchesSearch && matchesCategory && matchesPlatform && matchesPerson;
+      return matchesSearch && matchesCategory && matchesPlatform && matchesTeam && matchesPerson;
     });
   }, [searchQuery, selectedCategory, selectedPlatform, selectedPerson]);
 
@@ -49,10 +53,11 @@ const AppStore = () => {
     setSearchQuery('');
     setSelectedCategory('all');
     setSelectedPlatform('all');
+    setSelectedTeam('all');
     setSelectedPerson('all');
   };
 
-  const hasActiveFilters = searchQuery || selectedCategory !== 'all' || selectedPlatform !== 'all' || selectedPerson !== 'all';
+  const hasActiveFilters = searchQuery || selectedCategory !== 'all' || selectedPlatform !== 'all' || selectedTeam !== 'all' || selectedPerson !== 'all';
 
   return (
     <div className="min-h-screen">
@@ -140,6 +145,20 @@ const AppStore = () => {
                   >
                     {platforms.map(plat => (
                       <option key={plat.id} value={plat.id}>{plat.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Team Filter */}
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-500">Team:</span>
+                  <select
+                    value={selectedTeam}
+                    onChange={(e) => setSelectedTeam(e.target.value)}
+                    className="bg-gray-100 border-0 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                  >
+                    {teams.map(team => (
+                      <option key={team.id} value={team.id}>{team.name}</option>
                     ))}
                   </select>
                 </div>
@@ -269,6 +288,10 @@ const FeaturedAppCard = ({ app, getPlatformColor }) => {
           </span>
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
             {app.category}
+          </span>
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-700">
+            <Users className="w-3 h-3" />
+            {app.team}
           </span>
           {app.designedFor[0] !== 'Everyone' && (
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">

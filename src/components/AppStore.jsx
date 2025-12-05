@@ -429,7 +429,7 @@ const AppDetailModal = ({ app, onClose, getPlatformColor }) => {
               </span>
             </div>
           </div>
-        </div>
+          </div>
         </div>
 
         {/* Open App Button */}

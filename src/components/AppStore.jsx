@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, ExternalLink, X, ChevronDown, Sparkles, Grid3X3, User, Users } from 'lucide-react';
+import { Search, Filter, ExternalLink, X, ChevronDown, Sparkles, Grid3X3, User, Users, Calendar } from 'lucide-react';
 import { apps, categories, platforms, teams, getTeamMembers } from '../data/apps';
 
 const AppStore = () => {
@@ -9,6 +9,7 @@ const AppStore = () => {
   const [selectedTeam, setSelectedTeam] = useState('all');
   const [selectedPerson, setSelectedPerson] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedApp, setSelectedApp] = useState(null);
 
   const teamMembers = useMemo(() => getTeamMembers(), []);
 
@@ -203,7 +204,12 @@ const AppStore = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {featuredApps.map(app => (
-                <FeaturedAppCard key={app.id} app={app} getPlatformColor={getPlatformColor} />
+                <FeaturedAppCard 
+                  key={app.id} 
+                  app={app} 
+                  getPlatformColor={getPlatformColor}
+                  onClick={() => setSelectedApp(app)}
+                />
               ))}
             </div>
           </section>
@@ -235,7 +241,12 @@ const AppStore = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredApps.map(app => (
-                <AppCard key={app.id} app={app} getPlatformColor={getPlatformColor} />
+                <AppCard 
+                  key={app.id} 
+                  app={app} 
+                  getPlatformColor={getPlatformColor}
+                  onClick={() => setSelectedApp(app)}
+                />
               ))}
             </div>
           )}
@@ -251,18 +262,25 @@ const AppStore = () => {
           </div>
         </div>
       </footer>
+
+      {/* App Detail Modal */}
+      {selectedApp && (
+        <AppDetailModal 
+          app={selectedApp} 
+          onClose={() => setSelectedApp(null)} 
+          getPlatformColor={getPlatformColor}
+        />
+      )}
     </div>
   );
 };
 
 // Featured App Card Component
-const FeaturedAppCard = ({ app, getPlatformColor }) => {
+const FeaturedAppCard = ({ app, getPlatformColor, onClick }) => {
   return (
-    <a
-      href={app.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-gray-200 flex gap-5"
+    <div
+      onClick={onClick}
+      className="group bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-gray-200 flex gap-5 cursor-pointer"
     >
       {/* Icon */}
       <div className={`w-20 h-20 bg-gradient-to-br ${app.iconBg} rounded-2xl flex items-center justify-center text-4xl shadow-lg flex-shrink-0 group-hover:scale-105 transition-transform`}>
@@ -301,18 +319,16 @@ const FeaturedAppCard = ({ app, getPlatformColor }) => {
           )}
         </div>
       </div>
-    </a>
+    </div>
   );
 };
 
 // Regular App Card Component
-const AppCard = ({ app, getPlatformColor }) => {
+const AppCard = ({ app, getPlatformColor, onClick }) => {
   return (
-    <a
-      href={app.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 flex flex-col"
+    <div
+      onClick={onClick}
+      className="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 flex flex-col cursor-pointer"
     >
       {/* Header */}
       <div className="flex items-start gap-4 mb-3">
@@ -353,7 +369,131 @@ const AppCard = ({ app, getPlatformColor }) => {
           </span>
         )}
       </div>
-    </a>
+    </div>
+  );
+};
+
+// App Detail Modal Component
+const AppDetailModal = ({ app, onClose, getPlatformColor }) => {
+  // Close on escape key
+  React.useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
+  return (
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      
+      {/* Modal */}
+      <div 
+        className="relative bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="p-6 pb-4">
+          {/* Close Button */}
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={onClose}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+          
+          <div className="flex gap-5">
+          {/* Icon */}
+          <div className={`w-24 h-24 bg-gradient-to-br ${app.iconBg} rounded-2xl flex items-center justify-center text-5xl shadow-lg flex-shrink-0`}>
+            {app.icon}
+          </div>
+
+          {/* Title & Basic Info */}
+          <div className="flex-1 min-w-0 pt-1">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              {app.name}
+            </h2>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getPlatformColor(app.platform)}`}>
+                {app.platform}
+              </span>
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
+                {app.category}
+              </span>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        {/* Open App Button */}
+        <div className="px-6 pb-4">
+          <a
+            href={app.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-blue-500/25"
+          >
+            <ExternalLink className="w-5 h-5" />
+            Open App
+          </a>
+        </div>
+
+        {/* Description */}
+        <div className="px-6 pb-4">
+          <h3 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">Description</h3>
+          <p className="text-gray-600 leading-relaxed">
+            {app.description}
+          </p>
+        </div>
+
+        {/* Details */}
+        <div className="px-6 pb-6 space-y-4">
+          <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Details</h3>
+          
+          <div className="grid grid-cols-2 gap-4">
+            {/* Team */}
+            <div className="bg-gray-50 rounded-xl p-4">
+              <div className="flex items-center gap-2 text-gray-500 mb-1">
+                <Users className="w-4 h-4" />
+                <span className="text-xs font-medium uppercase">Team</span>
+              </div>
+              <p className="text-gray-900 font-medium">{app.team}</p>
+            </div>
+
+            {/* Designed For */}
+            <div className="bg-gray-50 rounded-xl p-4">
+              <div className="flex items-center gap-2 text-gray-500 mb-1">
+                <User className="w-4 h-4" />
+                <span className="text-xs font-medium uppercase">Designed For</span>
+              </div>
+              <p className="text-gray-900 font-medium">{app.designedFor.join(', ')}</p>
+            </div>
+
+            {/* Date Added */}
+            <div className="bg-gray-50 rounded-xl p-4 col-span-2">
+              <div className="flex items-center gap-2 text-gray-500 mb-1">
+                <Calendar className="w-4 h-4" />
+                <span className="text-xs font-medium uppercase">Added</span>
+              </div>
+              <p className="text-gray-900 font-medium">
+                {new Date(app.dateAdded).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

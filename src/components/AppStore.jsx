@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, ExternalLink, X, ChevronDown, Sparkles, Grid3X3, User, Users, Calendar } from 'lucide-react';
+import { Search, Filter, ExternalLink, X, ChevronDown, Sparkles, Grid3X3, User, Users, Calendar, RefreshCw, History } from 'lucide-react';
 import { apps, categories, platforms, teams, getTeamMembers } from '../data/apps';
 
 const AppStore = () => {
@@ -275,13 +275,32 @@ const AppStore = () => {
   );
 };
 
+// Helper to check if an update is recent (within 90 days)
+const isRecentUpdate = (updateDate) => {
+  const update = new Date(updateDate);
+  const now = new Date();
+  const diffTime = now - update;
+  const diffDays = diffTime / (1000 * 60 * 60 * 24);
+  return diffDays <= 90;
+};
+
 // Featured App Card Component
 const FeaturedAppCard = ({ app, getPlatformColor, onClick }) => {
+  const hasRecentUpdate = app.updates && app.updates.length > 0 && isRecentUpdate(app.updates[0].date);
+  
   return (
     <div
       onClick={onClick}
-      className="group bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-gray-200 flex gap-5 cursor-pointer"
+      className="group bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-gray-200 flex gap-5 cursor-pointer relative"
     >
+      {/* Update Badge */}
+      {hasRecentUpdate && (
+        <div className="absolute -top-2 -right-2 flex items-center gap-1 px-2.5 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-lg animate-pulse">
+          <RefreshCw className="w-3 h-3" />
+          Updated
+        </div>
+      )}
+      
       {/* Icon */}
       <div className={`w-20 h-20 bg-gradient-to-br ${app.iconBg} rounded-2xl flex items-center justify-center text-4xl shadow-lg flex-shrink-0 group-hover:scale-105 transition-transform`}>
         {app.icon}
@@ -325,11 +344,21 @@ const FeaturedAppCard = ({ app, getPlatformColor, onClick }) => {
 
 // Regular App Card Component
 const AppCard = ({ app, getPlatformColor, onClick }) => {
+  const hasRecentUpdate = app.updates && app.updates.length > 0 && isRecentUpdate(app.updates[0].date);
+  
   return (
     <div
       onClick={onClick}
-      className="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 flex flex-col cursor-pointer"
+      className="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 flex flex-col cursor-pointer relative"
     >
+      {/* Update Badge */}
+      {hasRecentUpdate && (
+        <div className="absolute -top-2 -right-2 flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-lg">
+          <RefreshCw className="w-3 h-3" />
+          Updated
+        </div>
+      )}
+      
       {/* Header */}
       <div className="flex items-start gap-4 mb-3">
         {/* Icon */}
@@ -375,6 +404,10 @@ const AppCard = ({ app, getPlatformColor, onClick }) => {
 
 // App Detail Modal Component
 const AppDetailModal = ({ app, onClose, getPlatformColor }) => {
+  const hasUpdates = app.updates && app.updates.length > 0;
+  const latestUpdate = hasUpdates ? app.updates[0] : null;
+  const hasRecentUpdate = hasUpdates && isRecentUpdate(latestUpdate.date);
+  
   // Close on escape key
   React.useEffect(() => {
     const handleEscape = (e) => {
@@ -411,8 +444,13 @@ const AppDetailModal = ({ app, onClose, getPlatformColor }) => {
           
           <div className="flex gap-5">
           {/* Icon */}
-          <div className={`w-24 h-24 bg-gradient-to-br ${app.iconBg} rounded-2xl flex items-center justify-center text-5xl shadow-lg flex-shrink-0`}>
+          <div className={`w-24 h-24 bg-gradient-to-br ${app.iconBg} rounded-2xl flex items-center justify-center text-5xl shadow-lg flex-shrink-0 relative`}>
             {app.icon}
+            {hasRecentUpdate && (
+              <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                <RefreshCw className="w-3 h-3 text-white" />
+              </div>
+            )}
           </div>
 
           {/* Title & Basic Info */}
@@ -427,6 +465,12 @@ const AppDetailModal = ({ app, onClose, getPlatformColor }) => {
               <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
                 {app.category}
               </span>
+              {hasUpdates && (
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                  <RefreshCw className="w-3 h-3" />
+                  v{latestUpdate.version}
+                </span>
+              )}
             </div>
           </div>
           </div>
@@ -444,6 +488,41 @@ const AppDetailModal = ({ app, onClose, getPlatformColor }) => {
             Open App
           </a>
         </div>
+
+        {/* What's New Section */}
+        {hasUpdates && (
+          <div className="px-6 pb-4">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-100">
+              <div className="flex items-center gap-2 mb-3">
+                <RefreshCw className="w-5 h-5 text-green-600" />
+                <h3 className="text-sm font-semibold text-green-800 uppercase tracking-wide">What's New</h3>
+                <span className="text-xs text-green-600 ml-auto">
+                  {new Date(latestUpdate.date).toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric',
+                    year: 'numeric'
+                  })}
+                </span>
+              </div>
+              <p className="text-green-800 text-sm leading-relaxed mb-3">
+                {latestUpdate.notes}
+              </p>
+              {latestUpdate.previousUrl && (
+                <a
+                  href={latestUpdate.previousUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm text-green-700 hover:text-green-900 font-medium"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <History className="w-4 h-4" />
+                  Use Previous Version
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Description */}
         <div className="px-6 pb-4">

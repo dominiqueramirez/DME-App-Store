@@ -15,6 +15,15 @@
  *   url: 'https://link-to-app',
  *   dateAdded: '2025-12-05',
  *   featured: false,
+ *   // Optional: for apps with updates
+ *   updates: [
+ *     {
+ *       version: '1.1',
+ *       date: '2025-12-08',
+ *       notes: 'Description of what changed in this update.',
+ *       previousUrl: 'https://link-to-previous-version', // optional
+ *     }
+ *   ],
  * }
  */
 
@@ -57,9 +66,17 @@ export const apps = [
     platform: 'Claude Artifact',
     team: 'DME',
     designedFor: ['Gary'],
-    url: 'https://claude.ai/public/artifacts/f814092b-9117-49f3-93c0-6d6a7775d904',
+    url: 'https://claude.ai/public/artifacts/ff097a64-c99d-4f3a-8278-f164ba3873b4',
     dateAdded: '2025-12-05',
     featured: true,
+    updates: [
+      {
+        version: '1.1',
+        date: '2025-12-08',
+        notes: 'The update allows for uploading a single zip file rather than individual CSV files. The app automatically unzips the zip file and figures out which CSV file is which. This allows the user to avoid having to unzip the zip file on their computer, streamlining the process.',
+        previousUrl: 'https://claude.ai/public/artifacts/f814092b-9117-49f3-93c0-6d6a7775d904',
+      }
+    ],
   },
   {
     id: 'csv-text-extractor-claude',

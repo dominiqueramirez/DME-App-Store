@@ -495,7 +495,7 @@ const AppDetailModal = ({ app, onClose, getPlatformColor }) => {
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-100">
               <div className="flex items-center gap-2 mb-3">
                 <RefreshCw className="w-5 h-5 text-green-600" />
-                <h3 className="text-sm font-semibold text-green-800 uppercase tracking-wide">What's New</h3>
+                <h3 className="text-sm font-semibold text-green-800 uppercase tracking-wide">What's New in v{latestUpdate.version}</h3>
                 <span className="text-xs text-green-600 ml-auto">
                   {new Date(latestUpdate.date).toLocaleDateString('en-US', { 
                     month: 'short', 
@@ -504,22 +504,9 @@ const AppDetailModal = ({ app, onClose, getPlatformColor }) => {
                   })}
                 </span>
               </div>
-              <p className="text-green-800 text-sm leading-relaxed mb-3">
+              <p className="text-green-800 text-sm leading-relaxed">
                 {latestUpdate.notes}
               </p>
-              {latestUpdate.previousUrl && (
-                <a
-                  href={latestUpdate.previousUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-green-700 hover:text-green-900 font-medium"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <History className="w-4 h-4" />
-                  Use Previous Version
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              )}
             </div>
           </div>
         )}
@@ -533,7 +520,7 @@ const AppDetailModal = ({ app, onClose, getPlatformColor }) => {
         </div>
 
         {/* Details */}
-        <div className="px-6 pb-6 space-y-4">
+        <div className="px-6 pb-4 space-y-4">
           <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Details</h3>
           
           <div className="grid grid-cols-2 gap-4">
@@ -571,6 +558,42 @@ const AppDetailModal = ({ app, onClose, getPlatformColor }) => {
             </div>
           </div>
         </div>
+
+        {/* Version History Section */}
+        {app.versionHistory && app.versionHistory.length > 0 && (
+          <div className="px-6 pb-6">
+            <div className="bg-gradient-to-br from-gray-50 to-slate-50 rounded-xl p-4 border border-gray-200">
+              <div className="flex items-center gap-2 mb-3">
+                <History className="w-5 h-5 text-gray-600" />
+                <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Previous Versions</h3>
+              </div>
+              <div className="space-y-3">
+                {app.versionHistory.map((version, index) => (
+                  <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-100">
+                    <div className="flex-shrink-0">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-gray-200 text-gray-700">
+                        v{version.version}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-gray-600 mb-2">{version.notes}</p>
+                      <a
+                        href={version.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-800 font-medium"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        Open v{version.version}
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

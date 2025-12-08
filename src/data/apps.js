@@ -21,7 +21,14 @@
  *       version: '1.1',
  *       date: '2025-12-08',
  *       notes: 'Description of what changed in this update.',
- *       previousUrl: 'https://link-to-previous-version', // optional
+ *     }
+ *   ],
+ *   // Optional: version history for previous versions
+ *   versionHistory: [
+ *     {
+ *       version: '1.0',
+ *       url: 'https://link-to-previous-version',
+ *       notes: 'What this version had before it was replaced.',
  *     }
  *   ],
  * }
@@ -63,18 +70,29 @@ export const apps = [
     icon: '📊',
     iconBg: 'from-sky-500 to-blue-600',
     category: 'Data',
-    platform: 'Claude Artifact',
+    platform: 'VS Code/GitHub',
     team: 'DME',
     designedFor: ['Gary'],
-    url: 'https://claude.ai/public/artifacts/ff097a64-c99d-4f3a-8278-f164ba3873b4',
+    url: 'https://dominiqueramirez.github.io/weekly-social-media-report-generator/',
     dateAdded: '2025-12-05',
     featured: true,
     updates: [
       {
-        version: '1.1',
+        version: '1.2',
         date: '2025-12-08',
-        notes: 'The update allows for uploading a single zip file rather than individual CSV files. The app automatically unzips the zip file and figures out which CSV file is which. This allows the user to avoid having to unzip the zip file on their computer, streamlining the process.',
-        previousUrl: 'https://claude.ai/public/artifacts/f814092b-9117-49f3-93c0-6d6a7775d904',
+        notes: 'Now hosted on GitHub Pages, making it accessible on the VA network. Same great functionality with improved accessibility for all team members.',
+      }
+    ],
+    versionHistory: [
+      {
+        version: '1.1',
+        url: 'https://claude.ai/public/artifacts/ff097a64-c99d-4f3a-8278-f164ba3873b4',
+        notes: 'Added zip file upload support - automatically unzips and identifies CSV files.',
+      },
+      {
+        version: '1.0',
+        url: 'https://claude.ai/public/artifacts/f814092b-9117-49f3-93c0-6d6a7775d904',
+        notes: 'Original release - requires individual CSV file uploads.',
       }
     ],
   },

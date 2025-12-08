@@ -380,7 +380,7 @@ const AppCard = ({ app, getPlatformColor, onClick }) => {
       </div>
 
       {/* Description */}
-      <p className="text-sm text-gray-500 line-clamp-2 flex-1 mb-3">
+      <p className="text-sm text-gray-500 line-clamp-4 flex-1 mb-3">
         {app.description}
       </p>
 

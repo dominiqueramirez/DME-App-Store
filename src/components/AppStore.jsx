@@ -368,7 +368,7 @@ const AppCard = ({ app, getPlatformColor, onClick }) => {
 
         {/* Title & Platform */}
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
+          <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">
             {app.name}
           </h3>
           <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mt-1 ${getPlatformColor(app.platform)}`}>

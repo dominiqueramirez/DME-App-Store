@@ -222,6 +222,20 @@ export const apps = [
     dateAdded: '2025-12-05',
     featured: true,
   },
+  {
+    id: 'dme-metrics-dashboard',
+    name: 'DME Metrics Dashboard',
+    description: 'Displays DME engagement metrics in an interactive dashboard format. Tracks VA.gov page visits, video views, VA News page views, and podcast downloads against annual growth targets. Requires uploading a properly formatted CSV file.',
+    icon: '📊',
+    iconBg: 'from-blue-900 to-blue-700',
+    category: 'Data',
+    platform: 'VS Code/GitHub',
+    team: 'DME',
+    designedFor: ['Everyone'],
+    url: 'https://dominiqueramirez.github.io/dme-metrics-dashboard/',
+    dateAdded: '2025-12-11',
+    featured: true,
+  },
 ];
 
 // Teams

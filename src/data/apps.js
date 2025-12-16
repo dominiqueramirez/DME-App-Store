@@ -97,23 +97,9 @@ export const apps = [
     ],
   },
   {
-    id: 'csv-text-extractor-claude',
+    id: 'csv-text-extractor',
     name: 'CSV Text Extractor',
-    description: 'Takes a CSV with Speaker Name / Start Time / End Time / Text fields, and extracts the contents of the text fields and makes them copyable.',
-    icon: '📋',
-    iconBg: 'from-green-500 to-emerald-600',
-    category: 'Data',
-    platform: 'Claude Artifact',
-    team: 'DME',
-    designedFor: ['Chris'],
-    url: 'https://claude.ai/public/artifacts/0d333eba-7a5e-4f1e-98db-644d51924ad0',
-    dateAdded: '2025-12-05',
-    featured: false,
-  },
-  {
-    id: 'csv-text-extractor-vscode',
-    name: 'CSV Text Extractor',
-    description: 'Takes a CSV with Speaker Name / Start Time / End Time / Text fields, and extracts the contents of the text fields. Reachable on VA network.',
+    description: 'Takes a CSV with Speaker Name / Start Time / End Time / Text fields, and extracts the contents of the text fields and makes them copyable. Now accessible on the VA network.',
     icon: '📋',
     iconBg: 'from-green-500 to-emerald-600',
     category: 'Data',
@@ -123,6 +109,20 @@ export const apps = [
     url: 'https://dominiqueramirez.github.io/csv-text-extractor/',
     dateAdded: '2025-12-05',
     featured: false,
+    updates: [
+      {
+        version: '2.0',
+        date: '2025-12-05',
+        notes: 'Rebuilt with VS Code and hosted on GitHub Pages, making it accessible on the VA network. Same functionality with improved accessibility for all team members.',
+      }
+    ],
+    versionHistory: [
+      {
+        version: '1.0',
+        url: 'https://claude.ai/public/artifacts/0d333eba-7a5e-4f1e-98db-644d51924ad0',
+        notes: 'Original release as Claude Artifact. Not accessible on VA network.',
+      }
+    ],
   },
   {
     id: 'sbv-to-srt',

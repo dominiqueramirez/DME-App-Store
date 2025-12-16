@@ -38,16 +38,30 @@ export const apps = [
   {
     id: 'timecode-to-srt',
     name: 'Timecode to SRT Converter',
-    description: 'Convert transcripts with HH;MM;SS;FF timecodes to standard SRT subtitle format.',
+    description: 'Convert transcripts with HH;MM;SS;FF timecodes to standard SRT subtitle format. Now accessible on the VA network.',
     icon: '⏱️',
     iconBg: 'from-blue-500 to-blue-600',
     category: 'Media',
-    platform: 'Claude Artifact',
+    platform: 'VS Code/GitHub',
     team: 'DME',
     designedFor: ['Pablo'],
-    url: 'https://claude.ai/public/artifacts/5ca5ea71-8f4c-4355-8591-d4bcc596507e',
+    url: 'https://dominiqueramirez.github.io/timecode-to-srt-converter/',
     dateAdded: '2025-12-05',
     featured: false,
+    updates: [
+      {
+        version: '2.0',
+        date: '2025-12-16',
+        notes: 'Rebuilt with VS Code and hosted on GitHub Pages, making it accessible on the VA network.',
+      }
+    ],
+    versionHistory: [
+      {
+        version: '1.0',
+        url: 'https://claude.ai/public/artifacts/5ca5ea71-8f4c-4355-8591-d4bcc596507e',
+        notes: 'Original release as Claude Artifact. Not accessible on VA network.',
+      }
+    ],
   },
   {
     id: 'secva-response-comment',

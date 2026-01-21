@@ -250,6 +250,27 @@ export const apps = [
     dateAdded: '2025-12-11',
     featured: true,
   },
+  {
+    id: 'secva-social-media-analytics',
+    name: 'SECVA Social Media Analytics',
+    description: 'Takes exported social media metrics from Hootsuite (X/Twitter, Instagram, and Facebook) and generates comprehensive analytics reports with interactive charts. Upload CSV exports, select a reporting period, and instantly generate visual reports showing follower growth, engagement trends, impressions, and posting activity across all platforms.',
+    icon: '📈',
+    iconBg: 'from-indigo-500 to-purple-600',
+    category: 'Data',
+    platform: 'VS Code/GitHub',
+    team: 'DME',
+    designedFor: ['John'],
+    url: 'https://dominiqueramirez.github.io/SECVA-Analytics/',
+    dateAdded: '2026-01-21',
+    featured: true,
+    updates: [
+      {
+        version: '1.0',
+        date: '2026-01-21',
+        notes: 'Initial release with support for X/Twitter, Instagram, and Facebook analytics from Hootsuite exports.',
+      }
+    ],
+  },
 ];
 
 // Teams

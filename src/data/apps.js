@@ -197,16 +197,30 @@ export const apps = [
   {
     id: 'custom-qr-code',
     name: 'Custom QR Code Generator',
-    description: 'Allows input of 3 custom colors to create a scannable QR code that can be added to graphics. Download size options range from 400x400 to 2000x2000.',
+    description: 'Allows input of 3 custom colors to create a scannable QR code that can be added to graphics. Download size options range from 400x400 to 2000x2000. Now accessible on the VA network.',
     icon: '📱',
     iconBg: 'from-pink-500 to-rose-500',
     category: 'Utilities',
-    platform: 'Claude Artifact',
+    platform: 'VS Code/GitHub',
     team: 'DME',
     designedFor: ['Everyone'],
-    url: 'https://claude.ai/public/artifacts/1b285c3c-ab0d-496b-97fa-997855de6bec',
+    url: 'https://dominiqueramirez.github.io/qr-code-generator/',
     dateAdded: '2025-12-05',
     featured: true,
+    updates: [
+      {
+        version: '2.0',
+        date: '2026-01-23',
+        notes: 'Rebuilt with VS Code and hosted on GitHub Pages, making it accessible on the VA network.',
+      }
+    ],
+    versionHistory: [
+      {
+        version: '1.0',
+        url: 'https://claude.ai/public/artifacts/1b285c3c-ab0d-496b-97fa-997855de6bec',
+        notes: 'Original release as Claude Artifact. Not accessible on VA network.',
+      }
+    ],
   },
   {
     id: 'transcript-cleaner',

@@ -249,6 +249,7 @@ export const apps = [
     url: 'https://claude.ai/public/artifacts/ba0d32d2-ba04-4e81-b40d-0adb568b6392',
     dateAdded: '2025-12-05',
     featured: true,
+    note: 'This app must be a Claude Artifact because it requires access to Claude AI for Optical Character Recognition (OCR).',
   },
   {
     id: 'dme-metrics-dashboard',

@@ -519,6 +519,18 @@ const AppDetailModal = ({ app, onClose, getPlatformColor }) => {
           </p>
         </div>
 
+        {/* Note */}
+        {app.note && (
+          <div className="px-6 pb-4">
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+              <p className="text-amber-800">
+                <span className="font-bold">Note:</span>{' '}
+                <span className="italic">{app.note}</span>
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Details */}
         <div className="px-6 pb-4 space-y-4">
           <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Details</h3>

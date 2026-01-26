@@ -288,7 +288,7 @@ export const apps = [
   {
     id: 'x-analytics-email-report',
     name: 'X Analytics to Email Report',
-    description: 'Analyzes X (Twitter) analytics screenshots and automatically extracts engagement metrics (retweets, engagements, impressions, and likes) using AI-powered image recognition. Generates a formatted weekly email report with proper bold formatting ready to copy and paste directly into Monday morning SECVA communications. Note: This app must be a Claude Artifact because it requires access to Claude AI for Optical Character Recognition (OCR).',
+    description: 'Analyzes X (Twitter) analytics screenshots and automatically extracts engagement metrics (retweets, engagements, impressions, and likes) using AI-powered image recognition. Generates a formatted weekly email report with proper bold formatting ready to copy and paste directly into Monday morning SECVA communications.',
     icon: '🐦',
     iconBg: 'from-sky-500 to-blue-600',
     category: 'Data',
@@ -298,6 +298,7 @@ export const apps = [
     url: 'https://claude.ai/public/artifacts/a0b89150-4d51-48e4-ba4b-24060db7c3eb',
     dateAdded: '2026-01-26',
     featured: false,
+    note: 'This app must be a Claude Artifact because it requires access to Claude AI for Optical Character Recognition (OCR).',
   },
 ];
 

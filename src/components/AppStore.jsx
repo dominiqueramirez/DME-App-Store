@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, ExternalLink, X, ChevronDown, Sparkles, Grid3X3, User, Users, Calendar, RefreshCw, History } from 'lucide-react';
+import { Search, Filter, ExternalLink, X, ChevronDown, Sparkles, Grid3X3, User, Users, Calendar, RefreshCw, History, CalendarDays } from 'lucide-react';
 import { apps, categories, platforms, teams, getTeamMembers } from '../data/apps';
 
 const AppStore = () => {
@@ -42,6 +42,32 @@ const AppStore = () => {
 
   // Featured apps
   const featuredApps = useMemo(() => apps.filter(app => app.featured), []);
+
+  // Weekly Reports configuration
+  const weeklyReports = useMemo(() => [
+    {
+      id: 'monday-twitter-report',
+      title: 'Monday Morning Twitter Report',
+      day: 'Monday',
+      sentTo: 'John',
+      appId: 'secva-twitter-metrics',
+    },
+    {
+      id: 'thursday-engagement-report',
+      title: 'Thursday Social Engagement Report',
+      day: 'Thursday',
+      sentTo: 'John',
+      appId: 'sm-selector-tool',
+    },
+  ], []);
+
+  // Get app objects for weekly reports
+  const weeklyReportApps = useMemo(() => {
+    return weeklyReports.map(report => {
+      const app = apps.find(a => a.id === report.appId);
+      return { ...report, app };
+    }).filter(report => report.app);
+  }, [weeklyReports]);
 
   // Get platform badge color
   const getPlatformColor = (platformName) => {
@@ -195,6 +221,25 @@ const AppStore = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Weekly Reports Section - only show when no filters active */}
+        {!hasActiveFilters && weeklyReportApps.length > 0 && (
+          <section className="mb-12">
+            <div className="flex items-center gap-2 mb-6">
+              <CalendarDays className="w-6 h-6 text-blue-500" />
+              <h2 className="text-2xl font-bold text-gray-900">Weekly Reports</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {weeklyReportApps.map(report => (
+                <WeeklyReportCard
+                  key={report.id}
+                  report={report}
+                  onClick={() => setSelectedApp(report.app)}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Featured Section - only show when no filters active */}
         {!hasActiveFilters && featuredApps.length > 0 && (
           <section className="mb-12">
@@ -337,6 +382,64 @@ const FeaturedAppCard = ({ app, getPlatformColor, onClick }) => {
             </span>
           )}
         </div>
+      </div>
+    </div>
+  );
+};
+
+// Weekly Report Card Component
+const WeeklyReportCard = ({ report, onClick }) => {
+  const { title, day, sentTo, app } = report;
+  
+  return (
+    <div
+      onClick={onClick}
+      className="group bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-blue-100 hover:border-blue-200 cursor-pointer relative"
+    >
+      {/* Header with Report Title */}
+      <div className="flex items-start gap-4 mb-4">
+        {/* Icon */}
+        <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+          <CalendarDays className="w-7 h-7 text-white" />
+        </div>
+
+        {/* Title & Day */}
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-gray-900 text-lg group-hover:text-blue-600 transition-colors leading-tight">
+            {title}
+          </h3>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700 mt-1">
+            <Calendar className="w-3 h-3" />
+            Weekly · {day}
+          </span>
+        </div>
+
+        <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-600 flex-shrink-0 mt-1" />
+      </div>
+
+      {/* Report Details */}
+      <div className="space-y-2 mb-4">
+        <div className="flex items-center gap-2 text-sm">
+          <User className="w-4 h-4 text-gray-400" />
+          <span className="text-gray-500">Sent to:</span>
+          <span className="text-gray-900 font-medium">{sentTo}</span>
+        </div>
+        <div className="flex items-center gap-2 text-sm">
+          <span className="text-2xl">{app.icon}</span>
+          <span className="text-gray-500">App:</span>
+          <span className="text-gray-900 font-medium">{app.name}</span>
+        </div>
+      </div>
+
+      {/* Footer with Team Info */}
+      <div className="flex items-center justify-between pt-3 border-t border-blue-100">
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-700">
+          <Users className="w-3 h-3" />
+          {app.team}
+        </span>
+        <span className="text-xs text-blue-600 font-medium group-hover:underline">
+          View App Details →
+        </span>
       </div>
     </div>
   );

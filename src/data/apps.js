@@ -310,7 +310,7 @@ export const apps = [
     category: 'Media',
     platform: 'VS Code/GitHub',
     team: 'DME',
-    designedFor: ['Dom'],
+    designedFor: ['Krista'],
     url: 'https://dominiqueramirez.github.io/srt-file-renamer/',
     dateAdded: '2026-05-21',
     featured: true,

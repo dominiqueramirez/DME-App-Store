@@ -301,6 +301,20 @@ export const apps = [
     featured: false,
     note: 'This app must be a Claude Artifact because it requires access to Claude AI for Optical Character Recognition (OCR).',
   },
+  {
+    id: 'srt-file-renamer',
+    name: 'SRT File Renamer',
+    description: 'Renames SRT caption files to match Hootsuite\'s required naming format (filename.en_US.srt). Drag and drop an SRT file, auto-strips bad language/country suffixes, and downloads a renamed copy. File content is never modified — only the filename changes.',
+    icon: '📝',
+    iconBg: 'from-amber-500 to-orange-600',
+    category: 'Media',
+    platform: 'VS Code/GitHub',
+    team: 'DME',
+    designedFor: ['Dom'],
+    url: 'https://dominiqueramirez.github.io/srt-file-renamer/',
+    dateAdded: '2026-05-21',
+    featured: true,
+  },
 ];
 
 // Teams

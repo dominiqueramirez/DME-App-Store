@@ -315,6 +315,20 @@ export const apps = [
     dateAdded: '2026-05-21',
     featured: true,
   },
+  {
+    id: 'va-facility-news-hub',
+    name: 'VA Facility News Hub',
+    description: 'Aggregates stories and news releases from VA medical facilities across the country — copy-ready for WordPress. Browse and filter by facility, state, or article type, then copy individual fields (title, date, byline, image alt text, meta description, source URL) with a single click.',
+    icon: '📰',
+    iconBg: 'from-emerald-500 to-teal-600',
+    category: 'Utilities',
+    platform: 'VS Code/GitHub',
+    team: 'DME',
+    designedFor: ['Nikki'],
+    url: 'https://dominiqueramirez.github.io/va-facility-news-hub/',
+    dateAdded: '2026-05-29',
+    featured: true,
+  },
 ];
 
 // Teams
